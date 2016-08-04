@@ -1,0 +1,39 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:camel="http://camel.apache.org/schema/spring" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+    <camel:routeContext id="com.backbase.portal.integration.service.stock"
+        xmlns="http://camel.apache.org/schema/spring">
+        <route id="com.backbase.training.stock" >
+            <from uri="restlet:/stock/{code}/price?restletBinding=#queryStringToHeadersRestletBinding" />
+
+            <choice>
+                <when>
+                    <simple>${in.header.code} == "NASDAQ"</simple>
+                    <setHeader headerName="price">
+                        <constant>40.00</constant>
+                    </setHeader>
+                </when>
+                <when>
+                    <simple>${in.header.code} == "DOWJONES"</simple>
+                    <setHeader headerName="price">
+                        <constant>30.00</constant>
+                    </setHeader>
+                </when>
+                <otherwise>
+                    <setHeader headerName="price">
+                        <constant>0.00</constant>
+                    </setHeader>
+                </otherwise>
+            </choice>
+
+            <setBody id="com.backbase.training.content.setbody">
+                <simple>{"code" : "${header.code}", "country": "${header.country}", "price" : ${header.price}}</simple>
+            </setBody>
+
+            <log id="com.backbase.training.content.log.body" message="body: ${body}" loggingLevel="DEBUG"/>
+        </route>
+    </camel:routeContext>
+</beans>
