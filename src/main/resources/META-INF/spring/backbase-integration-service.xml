@@ -8,8 +8,9 @@
         xmlns="http://camel.apache.org/schema/spring">
         <route id="com.backbase.training.stock" >
             <from uri="restlet:/stock/{code}/price?restletBinding=#queryStringToHeadersRestletBinding" />
-
-            <choice>
+            <removeHeaders pattern="CamelHttp*" excludePattern="CamelHttpMethod"/>
+            <log message="${headers}" loggingLevel="DEBUG"/>
+            <choice id="codeChoice">
                 <when>
                     <simple>${in.header.code} == "NASDAQ"</simple>
                     <setHeader headerName="price">
@@ -23,13 +24,52 @@
                     </setHeader>
                 </when>
                 <otherwise>
-                    <setHeader headerName="price">
-                        <constant>0.00</constant>
+                    <setHeader headerName="CamelHttpQuery">
+                        <simple>q=${in.header.code}</simple>
                     </setHeader>
+
+                    <to uri="https://www.google.com/finance/info"/>
+
+                    <choice id="c1">
+                        <when>
+                            <simple>${header.CamelHttpResponseCode} == 200</simple>
+                            <convertBodyTo type="String"/>
+
+                            <transform>
+                                <simple>${body.replaceAll("//", "")}</simple>
+                            </transform>
+
+                            <unmarshal>
+                                <json library="Jackson" unmarshalTypeName="java.util.List"/>
+                            </unmarshal>
+
+                            <log message="body: ${body}" loggingLevel="DEBUG"/>
+
+                            <setHeader headerName="price">
+                                <simple>${body[0]["l"]}</simple>
+                            </setHeader>
+
+                            <setBody>
+                                <simple>{"code" : "${header.code}", "country": "${header.country}", "price" : ${header.price}}</simple>
+                            </setBody>
+                        </when>
+                        <when>
+                            <simple>${header.CamelHttpResponseCode} == 400</simple>
+                            <setHeader headerName="CamelHttpResponseCode">
+                                <constant>200</constant>
+                            </setHeader>
+                            <setBody>
+                                <simple>{"msg" : "stock not found"}</simple>
+                            </setBody>
+
+                        </when>
+                    </choice>
+
                 </otherwise>
+
             </choice>
 
-            <setBody id="com.backbase.training.content.setbody">
+            <setBody>
                 <simple>{"code" : "${header.code}", "country": "${header.country}", "price" : ${header.price}}</simple>
             </setBody>
 
