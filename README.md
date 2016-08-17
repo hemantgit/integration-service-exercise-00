@@ -30,5 +30,5 @@ You must have a CXP project configured in your machine before performing this ex
 
 ### Build & Run
 
-- If Portalserver application is already running, stop it by pressing *Ctrl+C*. Start Portalserver application by executing `mvn jetty:run` command from the **webapps/portalserver** directory.
-- Using a REST client app (e.g. Postman), test the route execution. Example to get the stock price of the HSBC Bank: http://localhost:7777/portalserver/services/rest/stock/HSBA.L/price?country=US
+- You must restart your portal server if the application is already running. 
+- Test the route execution by using a REST client app (e.g. Postman) or your browser. Example to get the stock price of the HSBC Bank: http://localhost:7777/portalserver/services/rest/stock/HSBA.L/price?country=US
