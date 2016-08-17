@@ -6,7 +6,7 @@ You must have a CXP project configured in your machine before performing this ex
 
 ### Installation & Configuration
 
-- Copy **integration-service-exercise-00** into the **services** folder of your project.
+- Copy **integration-service-exercise-00** into the **services** folder of your project. You can use the git command to clone the project: ```git clone https://github.com/marciofk/integration-service-exercise-00.git```
 
 - Include **integration-service-exercise-00** module to the build.  Open `services/pom.xml` and add **integration-service-exercise-00** in the `<modules>` section: 
 	```xml
@@ -31,4 +31,4 @@ You must have a CXP project configured in your machine before performing this ex
 ### Build & Run
 
 - If Portalserver application is already running, stop it by pressing *Ctrl+C*. Start Portalserver application by executing `mvn jetty:run` command from the **webapps/portalserver** directory.
-- Using a REST client app (e.g. Postman), test the route execution. Example: http://localhost:7777/portalserver/services/rest/stock/HSBA.L/price?country=US
+- Using a REST client app (e.g. Postman), test the route execution. Example to get the stock price of the HSBC Bank: http://localhost:7777/portalserver/services/rest/stock/HSBA.L/price?country=US
