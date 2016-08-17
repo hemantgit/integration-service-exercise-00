@@ -2,7 +2,7 @@
 This project shows a simple example of a route using Apache Camel and the Spring DSL. It has a restlet endpoint that asks for the price of a stock code. The route uses a simple content-based router that takes the stock code into account: if the stock code is NASDAQ or  DOWJONES it provides a hard coded price. Otherwise, it forwards the request to the google finance API and returns the current price to the caller. 
 
 ## Prerequisites
-You must have a CXP project configured in your machine before performing this exercise. Follow the instructions on the following site: https://my.backbase.com/docs/how-to-guides/getting-your-first-launchpad-based-portal-set-up/
+You must have a CXP project configured in your machine before performing this exercise. If you do not have one, please follow the instructions on the following site: https://my.backbase.com/docs/how-to-guides/getting-your-first-launchpad-based-portal-set-up/
 
 ### Installation & Configuration
 
