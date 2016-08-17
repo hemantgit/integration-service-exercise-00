@@ -6,7 +6,7 @@
 
     <camel:routeContext id="com.backbase.portal.integration.service.stock"
         xmlns="http://camel.apache.org/schema/spring">
-        <route id="com.backbase.training.stock" >
+        <route id="com.backbase.training.stock" streamCache="true">
             <from uri="restlet:/stock/{code}/price?restletBinding=#queryStringToHeadersRestletBinding" />
             <removeHeaders pattern="CamelHttp*" excludePattern="CamelHttpMethod"/>
             <log message="${headers}" loggingLevel="DEBUG"/>
