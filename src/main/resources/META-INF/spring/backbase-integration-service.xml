@@ -28,7 +28,7 @@
                         <simple>q=${in.header.code}</simple>
                     </setHeader>
 
-                    <to uri="https://www.google.com/finance/info"/>
+                    <to uri="https://www.google.com/finance/info?throwExceptionOnFailure=false"/>
 
                     <choice id="c1">
                         <when>
@@ -46,22 +46,17 @@
                             <log message="body: ${body}" loggingLevel="DEBUG"/>
 
                             <setHeader headerName="price">
-                                <simple>${body[0]["l"]}</simple>
+                                <simple>${body.get(0)[l]}</simple>
                             </setHeader>
-
-                            <setBody>
-                                <simple>{"code" : "${header.code}", "country": "${header.country}", "price" : ${header.price}}</simple>
-                            </setBody>
                         </when>
                         <when>
                             <simple>${header.CamelHttpResponseCode} == 400</simple>
                             <setHeader headerName="CamelHttpResponseCode">
                                 <constant>200</constant>
                             </setHeader>
-                            <setBody>
-                                <simple>{"msg" : "stock not found"}</simple>
-                            </setBody>
-
+                            <setHeader headerName="price">
+                                <constant>null</constant>
+                            </setHeader>
                         </when>
                     </choice>
 
