@@ -46,7 +46,7 @@
                             <log message="body: ${body}" loggingLevel="DEBUG"/>
 
                             <setHeader headerName="price">
-                                <simple>${body.get(0)[l]}</simple>
+                                <simple>${body.get(0)[l_fix]}</simple>
                             </setHeader>
                         </when>
                         <when>
