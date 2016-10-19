@@ -13,12 +13,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.backbase.portal.integration</groupId>
-            <artifactId>integration-service-deps</artifactId>
-            <version>5.6.1.0</version>
-            <type>pom</type>
-        </dependency>
-        <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-jackson</artifactId>
             <version>2.12.4</version>
